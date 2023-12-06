@@ -18,6 +18,22 @@ class Cell:
             return self.color[0] + self.piece.__repr__() + self.color[1:]
 
 
+piece_names = {
+    "K": "King",
+    "k": "King",
+    "Q": "Queen",
+    "q": "Queen",
+    "R": "Rook",
+    "r": "Rook",
+    "B": "Bishop",
+    "b": "Bishop",
+    "H": "Knight",
+    "h": "Knight",
+    "P": "Pawn",
+    "p": "Pawn"
+}
+
+
 def create_board():
     pieces_order = ['r', 'h', 'b', 'q', 'k', 'b', 'h', 'r']
     pawns_order = ['p' for _ in range(8)]
@@ -48,27 +64,28 @@ def move_piece():
     while True:
         try:
             source = input("Enter the coordinates of the source cell: ")
-            destination = input(
-                "Enter the coordinates of the destination cell: ")
+            destination = input("Enter the coordinates of the destination cell: ")
 
             if len(source) != 2 or len(destination) != 2:
-                raise ValueError(
-                    "The coordinates must be one letter and one digit")
+                raise ValueError("The coordinates must be one letter and one digit")
 
-            # Get the indexes of the cells on the board
             source_row = 8 - int(source[1])
             source_col = ord(source[0]) - ord('a')
             dest_row = 8 - int(destination[1])
             dest_col = ord(destination[0]) - ord('a')
 
-            # Check that the original cell contains the piece of player 1
             if board[source_row][source_col].piece is None:
                 raise ValueError("There is no Player 1 piece on this square")
 
-            # Check that the destination square on the chessboard is free
+            # Here we should probably add an algorithm defining the rules
+            # of chess piece movement
+            piece = board[source_row][source_col].piece.type
+            if piece in piece_names:
+                print(f"The piece is a {piece_names[piece]}.")
+
             if board[dest_row][dest_col].piece is not None:
-                raise ValueError("Клетка назначения уже занята")
-            # Move the piece
+                raise ValueError("The destination cell is already occupied")
+
             board[dest_row][dest_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
 
