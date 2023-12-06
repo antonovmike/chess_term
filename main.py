@@ -48,14 +48,18 @@ def move_piece():
     while True:
         try:
             source = input("Enter the coordinates of the source cell: ")
-            destination = input("Enter the coordinates of the destination cell: ")
+            destination = input(
+                "Enter the coordinates of the destination cell: ")
 
             if len(source) != 2 or len(destination) != 2:
-                raise ValueError("The coordinates must be one letter and one digit")
+                raise ValueError(
+                    "The coordinates must be one letter and one digit")
 
             # Get the indexes of the cells on the board
-            source_row, source_col = 8 - int(source[1]), ord(source[0]) - ord('a')
-            dest_row, dest_col = 8 - int(destination[1]), ord(destination[0]) - ord('a')
+            source_row = 8 - int(source[1])
+            source_col = ord(source[0]) - ord('a')
+            dest_row = 8 - int(destination[1])
+            dest_col = ord(destination[0]) - ord('a')
 
             # Check that the original cell contains the piece of player 1
             if board[source_row][source_col].piece is None:
@@ -75,7 +79,7 @@ def move_piece():
 
 
 def print_board():
-    print('Payer 1')
+    # print('Payer 1')
     print('  +---+---+---+---+---+---+---+---+')
     for row in range(8):
         print(f'{8 - row} |', end='')
@@ -88,7 +92,7 @@ def print_board():
                 print(f'{cell[:3]}|', end='')
         print('\n  +---+---+---+---+---+---+---+---+')
     print('    a   b   c   d   e   f   g   h')
-    print('Payer 2')
+    # print('Payer 2')
 
 
 print_board()
