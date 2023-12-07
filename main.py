@@ -28,6 +28,7 @@ class Pawn(ChessPiece):
     def __init__(self, color):
         super().__init__(color)
         self.type = "p"
+        self.first_move = True
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         pass
@@ -127,7 +128,11 @@ def create_board():
             elif i == 1:
                 piece = Pawn('upper')
             elif i >= 6:
-                piece = globals()[piece_names[pieces_order[j]]]('lower') if i == 7 else Pawn('white')
+                piece = globals()[piece_names[pieces_order[j]]]('lower')
+                if i == 7:
+                    piece = Pawn('lower')
+                else:
+                    piece = Pawn('lower')
             else:
                 piece = empty_order[j]
             row.append(Cell(color, piece))
