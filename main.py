@@ -31,6 +31,11 @@ class Pawn(ChessPiece):
         self.first_move = True
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
+        # Pawns can only move forward
+        if self.color == 'lower':
+            forward = 1
+        else:
+            forward = -1
         pass
 
 
