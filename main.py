@@ -1,12 +1,3 @@
-# Get rid of this class
-class Piece:
-    def __init__(self, type):
-        self.type = type
-
-    def __repr__(self):
-        return self.type
-
-
 class Cell:
     def __init__(self, color, piece=None):
         self.color = color
@@ -24,7 +15,10 @@ class ChessPiece:
         self.color = color
 
     def __repr__(self):
-        return self.type
+        if self.color == 'white':
+            return self.type.lower()
+        else:
+            return self.type.upper()
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         raise NotImplementedError("Subclasses must implement this method")
@@ -73,6 +67,7 @@ class King(ChessPiece):
         super().__init__(color)
         self.type = "k"
 
+
 piece_names = {
     "K": "King",
     "k": "King",
@@ -91,7 +86,6 @@ piece_names = {
 
 def create_board():
     pieces_order = ['r', 'h', 'b', 'q', 'k', 'b', 'h', 'r']
-    pawns_order = ['p' for _ in range(8)]
     empty_order = [None for _ in range(8)]
 
     board = []
@@ -100,11 +94,11 @@ def create_board():
         for j in range(8):
             color = ':::' if (i + j) % 2 == 0 else '   '
             if i == 0:
-                piece = Piece(pieces_order[j].upper())
+                piece = globals()[piece_names[pieces_order[j].upper()]]('black')
             elif i == 1:
-                piece = Piece(pawns_order[j].upper())
+                piece = Pawn('black')
             elif i >= 6:
-                piece = Piece(pieces_order[j] if i == 7 else pawns_order[j])
+                piece = globals()[piece_names[pieces_order[j]]]('white') if i == 7 else Pawn('white')
             else:
                 piece = empty_order[j]
             row.append(Cell(color, piece))
@@ -141,22 +135,21 @@ def move_piece():
                 if piece.isupper() and board[dest_row][dest_col].piece.type.isupper():
                     raise ValueError("Cannot capture a piece of the same case")
                 elif piece.isupper():
-                    upper_losses.append(board[dest_row][dest_col].piece)
-                elif piece.islower():
                     lower_losses.append(board[dest_row][dest_col].piece)
+                elif piece.islower():
+                    upper_losses.append(board[dest_row][dest_col].piece)
 
             # Check if the piece is Knight
-            if piece == "H" or piece == "h":
-                knight = Knight(board[source_row][source_col].color)
-                if not knight.valid_move(source_row, source_col, dest_row, dest_col):
-                    raise ValueError("Invalid move for the knight")
+            piece = board[source_row][source_col].piece
+            if not piece.valid_move(source_row, source_col, dest_row, dest_col):
+                raise ValueError("Invalid move for the Knight")
 
             board[dest_row][dest_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
 
             print_board()
             print('Upper Case losses:', upper_losses)
-            print('Lower case losses:', lower_losses)
+            print('Lower Case losses:', lower_losses)
 
         except ValueError as e:
             print(f"Error: {e}")
