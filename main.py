@@ -10,8 +10,15 @@ class Cell:
             return self.color[0] + self.piece.__repr__() + self.color[1:]
 
 
+class Player:
+    def __init__(self):
+        self.name
+        pass
+
+
 class ChessPiece:
     def __init__(self, color):
+        self.type = None
         self.color = color
 
     def __repr__(self):
@@ -179,7 +186,11 @@ def move_piece():
             source = input("Enter the coordinates of the source cell: ")
             destination = input("Enter the coordinates of the destination cell: ")
 
-            if len(source) != 2 or len(destination) != 2:
+            if source == 'quit' or destination == 'quit':
+                break
+            elif source == 'exit' or destination == 'exit':
+                break
+            elif len(source) != 2 or len(destination) != 2:
                 raise ValueError("The coordinates must be one letter and one digit")
 
             source_row = 8 - int(source[1])
