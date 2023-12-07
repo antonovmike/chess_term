@@ -57,7 +57,7 @@ class Pawn(ChessPiece):
                 return False
         else:
             dest_cell = board[dest_row][dest_col]
-            if dest_cell.piece is not None:
+            if dest_cell.piece is not None and dest_row == source_row - forward:
                 return True
 
         return valid
