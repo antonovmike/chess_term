@@ -36,7 +36,12 @@ class Pawn(ChessPiece):
             forward = 1
         else:
             forward = -1
-        pass
+
+        valid = dest_row == source_row - 1 and dest_col == source_col
+        valid = valid and (dest_col == source_col or abs(dest_col - source_col) == 1)
+
+        self.first_move = False
+        return valid
 
 
 class Rook(ChessPiece):
