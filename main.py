@@ -15,7 +15,7 @@ class ChessPiece:
         self.color = color
 
     def __repr__(self):
-        if self.color == 'white':
+        if self.color == 'lower':
             return self.type.lower()
         else:
             return self.type.upper()
@@ -29,11 +29,17 @@ class Pawn(ChessPiece):
         super().__init__(color)
         self.type = "p"
 
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        pass
+
 
 class Rook(ChessPiece):
     def __init__(self, color):
         super().__init__(color)
         self.type = "r"
+
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        pass
 
 
 class Knight(ChessPiece):
@@ -55,17 +61,26 @@ class Bishop(ChessPiece):
         super().__init__(color)
         self.type = "b"
 
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        pass
+
 
 class Queen(ChessPiece):
     def __init__(self, color):
         super().__init__(color)
         self.type = "q"
 
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        pass
+
 
 class King(ChessPiece):
     def __init__(self, color):
         super().__init__(color)
         self.type = "k"
+
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        pass
 
 
 piece_names = {
@@ -94,11 +109,11 @@ def create_board():
         for j in range(8):
             color = ':::' if (i + j) % 2 == 0 else '   '
             if i == 0:
-                piece = globals()[piece_names[pieces_order[j].upper()]]('black')
+                piece = globals()[piece_names[pieces_order[j].upper()]]('upper')
             elif i == 1:
-                piece = Pawn('black')
+                piece = Pawn('upper')
             elif i >= 6:
-                piece = globals()[piece_names[pieces_order[j]]]('white') if i == 7 else Pawn('white')
+                piece = globals()[piece_names[pieces_order[j]]]('lower') if i == 7 else Pawn('white')
             else:
                 piece = empty_order[j]
             row.append(Cell(color, piece))
