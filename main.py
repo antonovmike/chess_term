@@ -18,6 +18,19 @@ class Cell:
             return self.color[0] + self.piece.__repr__() + self.color[1:]
 
 
+class Knight:
+    def __init__(self, color):
+        self.color = color
+
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        if abs(source_row - dest_row) == 2 and abs(source_col - dest_col) == 1:
+            return True
+        elif abs(source_row - dest_row) == 1 and abs(source_col - dest_col) == 2:
+            return True
+        else:
+            return False
+
+
 piece_names = {
     "K": "King",
     "k": "King",
@@ -77,14 +90,16 @@ def move_piece():
             if board[source_row][source_col].piece is None:
                 raise ValueError("There is no Player 1 piece on this square")
 
-            # Here we should probably add an algorithm defining the rules
-            # of chess piece movement
             piece = board[source_row][source_col].piece.type
-            if piece in piece_names:
-                print(f"The piece is a {piece_names[piece]}.")
 
             if board[dest_row][dest_col].piece is not None:
                 raise ValueError("The destination cell is already occupied")
+
+            # Check if the piece is Knight
+            if piece == "H" or piece == "h":
+                knight = Knight(board[source_row][source_col].color)
+                if not knight.valid_move(source_row, source_col, dest_row, dest_col):
+                    raise ValueError("Invalid move for the knight")
 
             board[dest_row][dest_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
@@ -96,7 +111,6 @@ def move_piece():
 
 
 def print_board():
-    # print('Payer 1')
     print('  +---+---+---+---+---+---+---+---+')
     for row in range(8):
         print(f'{8 - row} |', end='')
@@ -109,7 +123,6 @@ def print_board():
                 print(f'{cell[:3]}|', end='')
         print('\n  +---+---+---+---+---+---+---+---+')
     print('    a   b   c   d   e   f   g   h')
-    # print('Payer 2')
 
 
 print_board()
