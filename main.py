@@ -18,9 +18,33 @@ class Cell:
             return self.color[0] + self.piece.__repr__() + self.color[1:]
 
 
-class Knight:
+class ChessPiece:
     def __init__(self, color):
         self.color = color
+
+    def __repr__(self):
+        return self.type
+
+    def valid_move(self, source_row, source_col, dest_row, dest_col):
+        raise NotImplementedError("Subclasses must implement this method")
+
+
+class Pawn(ChessPiece):
+    def __init__(self, color):
+        super().__init__(color)
+        self.type = "p"
+
+
+class Rook(ChessPiece):
+    def __init__(self, color):
+        super().__init__(color)
+        self.type = "r"
+
+
+class Knight(ChessPiece):
+    def __init__(self, color):
+        super().__init__(color)
+        self.type = "h"
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         if abs(source_row - dest_row) == 2 and abs(source_col - dest_col) == 1:
@@ -30,6 +54,23 @@ class Knight:
         else:
             return False
 
+
+class Bishop(ChessPiece):
+    def __init__(self, color):
+        super().__init__(color)
+        self.type = "b"
+
+
+class Queen(ChessPiece):
+    def __init__(self, color):
+        super().__init__(color)
+        self.type = "q"
+
+
+class King(ChessPiece):
+    def __init__(self, color):
+        super().__init__(color)
+        self.type = "k"
 
 piece_names = {
     "K": "King",
