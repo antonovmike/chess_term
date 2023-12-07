@@ -68,7 +68,7 @@ class Bishop(ChessPiece):
         if abs(source_row - dest_row) == abs(source_col - dest_col):
             return True
         else:
-            False
+            return False
 
 
 class Queen(ChessPiece):
@@ -77,7 +77,12 @@ class Queen(ChessPiece):
         self.type = "q"
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
-        pass
+        if source_row == dest_row or source_col == dest_col:
+            return True
+        elif abs(source_row - dest_row) == abs(source_col - dest_col):
+            return True
+        else:
+            return False
 
 
 class King(ChessPiece):
@@ -86,7 +91,10 @@ class King(ChessPiece):
         self.type = "k"
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
-        pass
+        if abs(source_row - dest_row) <= 1 and abs(source_col - dest_col) <= 1:
+            return True
+        else:
+            return False
 
 
 piece_names = {
