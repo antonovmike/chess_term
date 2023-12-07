@@ -32,6 +32,7 @@ class Pawn(ChessPiece):
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         # Pawns can only move forward
+        # Pawns can only capture diagonally
         if self.color == "lower":
             forward = 1
         else:
@@ -48,7 +49,16 @@ class Pawn(ChessPiece):
                 self.first_move = False
         else:
             valid = dest_row == source_row - 1 * forward and dest_col == source_col
-        # Pawns can only capture diagonally
+
+        # The pawn cannot attack straight forward, only diagonally
+        if valid:
+            dest_cell = board[dest_row][dest_col]
+            if dest_cell.piece is not None:
+                return False
+        else:
+            dest_cell = board[dest_row][dest_col]
+            if dest_cell.piece is not None:
+                return True
 
         return valid
 
