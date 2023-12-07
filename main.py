@@ -15,7 +15,7 @@ class ChessPiece:
         self.color = color
 
     def __repr__(self):
-        if self.color == 'lower':
+        if self.color == "lower":
             return self.type.lower()
         else:
             return self.type.upper()
@@ -32,15 +32,24 @@ class Pawn(ChessPiece):
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         # Pawns can only move forward
-        if self.color == 'lower':
+        if self.color == "lower":
             forward = 1
         else:
             forward = -1
 
-        valid = dest_row == source_row - 1 and dest_col == source_col
-        valid = valid and (dest_col == source_col or abs(dest_col - source_col) == 1)
+        if self.first_move:
+            valid = (
+                dest_row == source_row - 1 * forward
+                and dest_col == source_col
+                or dest_row == source_row - 2 * forward
+                and dest_col == source_col
+            )
+            if valid:
+                self.first_move = False
+        else:
+            valid = dest_row == source_row - 1 * forward and dest_col == source_col
+        # Pawns can only capture diagonally
 
-        self.first_move = False
         return valid
 
 
@@ -120,29 +129,29 @@ piece_names = {
     "H": "Knight",
     "h": "Knight",
     "P": "Pawn",
-    "p": "Pawn"
+    "p": "Pawn",
 }
 
 
 def create_board():
-    pieces_order = ['r', 'h', 'b', 'q', 'k', 'b', 'h', 'r']
+    pieces_order = ["r", "h", "b", "q", "k", "b", "h", "r"]
     empty_order = [None for _ in range(8)]
 
     board = []
     for i in range(8):
         row = []
         for j in range(8):
-            color = ':::' if (i + j) % 2 == 0 else '   '
+            color = ":::" if (i + j) % 2 == 0 else "   "
             if i == 0:
-                piece = globals()[piece_names[pieces_order[j].upper()]]('upper')
+                piece = globals()[piece_names[pieces_order[j].upper()]]("upper")
             elif i == 1:
-                piece = Pawn('upper')
+                piece = Pawn("upper")
             elif i >= 6:
-                piece = globals()[piece_names[pieces_order[j]]]('lower')
+                piece = globals()[piece_names[pieces_order[j]]]("lower")
                 if i == 7:
-                    piece = Pawn('lower')
+                    piece = Pawn("lower")
                 else:
-                    piece = Pawn('lower')
+                    piece = Pawn("lower")
             else:
                 piece = empty_order[j]
             row.append(Cell(color, piece))
@@ -166,9 +175,9 @@ def move_piece():
                 raise ValueError("The coordinates must be one letter and one digit")
 
             source_row = 8 - int(source[1])
-            source_col = ord(source[0]) - ord('a')
+            source_col = ord(source[0]) - ord("a")
             dest_row = 8 - int(destination[1])
-            dest_col = ord(destination[0]) - ord('a')
+            dest_col = ord(destination[0]) - ord("a")
 
             if board[source_row][source_col].piece is None:
                 raise ValueError("There is no Player 1 piece on this square")
@@ -193,26 +202,26 @@ def move_piece():
             board[source_row][source_col].piece = None
 
             print_board()
-            print('Upper Case losses:', upper_losses)
-            print('Lower Case losses:', lower_losses)
+            print("Upper Case losses:", upper_losses)
+            print("Lower Case losses:", lower_losses)
 
         except ValueError as e:
             print(f"Error: {e}")
 
 
 def print_board():
-    print('  +---+---+---+---+---+---+---+---+')
+    print("  +---+---+---+---+---+---+---+---+")
     for row in range(8):
-        print(f'{8 - row} |', end='')
+        print(f"{8 - row} |", end="")
         for col in range(8):
             cell = board[row][col]
             if cell.piece is None:
-                print(f'{cell}|', end='')
+                print(f"{cell}|", end="")
             else:
                 cell = str(cell)
-                print(f'{cell[:3]}|', end='')
-        print('\n  +---+---+---+---+---+---+---+---+')
-    print('    a   b   c   d   e   f   g   h')
+                print(f"{cell[:3]}|", end="")
+        print("\n  +---+---+---+---+---+---+---+---+")
+    print("    a   b   c   d   e   f   g   h")
 
 
 print_board()
