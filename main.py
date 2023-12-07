@@ -147,11 +147,9 @@ def create_board():
             elif i == 1:
                 piece = Pawn("upper")
             elif i >= 6:
-                piece = globals()[piece_names[pieces_order[j]]]("lower")
+                piece = Pawn("lower")
                 if i == 7:
-                    piece = Pawn("lower")
-                else:
-                    piece = Pawn("lower")
+                    piece = globals()[piece_names[pieces_order[j]]]("lower")
             else:
                 piece = empty_order[j]
             row.append(Cell(color, piece))
