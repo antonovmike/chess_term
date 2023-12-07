@@ -39,7 +39,10 @@ class Rook(ChessPiece):
         self.type = "r"
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
-        pass
+        if source_row == dest_row or source_col == dest_col:
+            return True
+        else:
+            return False
 
 
 class Knight(ChessPiece):
@@ -62,7 +65,10 @@ class Bishop(ChessPiece):
         self.type = "b"
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
-        pass
+        if abs(source_row - dest_row) == abs(source_col - dest_col):
+            return True
+        else:
+            False
 
 
 class Queen(ChessPiece):
@@ -154,10 +160,11 @@ def move_piece():
                 elif piece.islower():
                     upper_losses.append(board[dest_row][dest_col].piece)
 
-            # Check if the piece is Knight
+            # Check the piece
             piece = board[source_row][source_col].piece
             if not piece.valid_move(source_row, source_col, dest_row, dest_col):
-                raise ValueError("Invalid move for the Knight")
+                value = piece_names[piece.type]
+                raise ValueError(f"Invalid move for {value}")
 
             board[dest_row][dest_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
