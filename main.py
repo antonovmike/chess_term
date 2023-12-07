@@ -196,9 +196,13 @@ def move_piece():
                 if piece.isupper() and board[dest_row][dest_col].piece.type.isupper():
                     raise ValueError("Cannot capture a piece of the same case")
                 elif piece.isupper():
-                    lower_losses.append(board[dest_row][dest_col].piece)
+                    lost_piece = str(board[dest_row][dest_col].piece)
+                    key = piece_names[lost_piece]
+                    lower_losses.append(key)
                 elif piece.islower():
-                    upper_losses.append(board[dest_row][dest_col].piece)
+                    lost_piece = str(board[dest_row][dest_col].piece)
+                    key = piece_names[lost_piece]
+                    upper_losses.append(key)
 
             # Check the piece
             piece = board[source_row][source_col].piece
