@@ -74,6 +74,9 @@ board = create_board()
 
 
 def move_piece():
+    upper_losses = []
+    lower_losses = []
+
     while True:
         try:
             source = input("Enter the coordinates of the source cell: ")
@@ -93,7 +96,12 @@ def move_piece():
             piece = board[source_row][source_col].piece.type
 
             if board[dest_row][dest_col].piece is not None:
-                raise ValueError("The destination cell is already occupied")
+                if piece.isupper() and board[dest_row][dest_col].piece.type.isupper():
+                    raise ValueError("Cannot capture a piece of the same case")
+                elif piece.isupper():
+                    upper_losses.append(board[dest_row][dest_col].piece)
+                elif piece.islower():
+                    lower_losses.append(board[dest_row][dest_col].piece)
 
             # Check if the piece is Knight
             if piece == "H" or piece == "h":
@@ -105,6 +113,8 @@ def move_piece():
             board[source_row][source_col].piece = None
 
             print_board()
+            print('Upper Case losses:', upper_losses)
+            print('Lower case losses:', lower_losses)
 
         except ValueError as e:
             print(f"Error: {e}")
