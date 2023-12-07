@@ -1,3 +1,4 @@
+# Get rid of this class
 class Piece:
     def __init__(self, type):
         self.type = type
