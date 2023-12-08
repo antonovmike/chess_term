@@ -1,3 +1,14 @@
+class Player:
+    def __init__(self, name, color):
+        self.name = name
+        self.color = color
+        pass
+
+
+player_1 = Player("Player 1", "lower")
+player_2 = Player("Player 2", "upper")
+
+
 class Cell:
     def __init__(self, color, piece=None):
         self.color = color
@@ -8,12 +19,6 @@ class Cell:
             return self.color
         else:
             return self.color[0] + self.piece.__repr__() + self.color[1:]
-
-
-class Player:
-    def __init__(self):
-        self.name
-        pass
 
 
 class ChessPiece:
@@ -208,9 +213,12 @@ board = create_board()
 def move_piece():
     upper_losses = []
     lower_losses = []
+    current_player = player_1
 
     while True:
         try:
+            print(f'It\'s {current_player.name} turn')
+
             source = input("Enter the coordinates of the source cell: ")
             destination = input("Enter the coordinates of the target cell: ")
 
@@ -269,6 +277,12 @@ def move_piece():
                 pawn_piece.check_reached_edge(target_row, target_col)
 
             print_board()
+
+            if current_player == player_1:
+                current_player = player_2
+            else:
+                current_player = player_1
+
             print("Upper Case losses:", *upper_losses)
             print("Lower Case losses:", *lower_losses)
 
