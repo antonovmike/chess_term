@@ -71,9 +71,27 @@ class Pawn(ChessPiece):
 
     def check_reached_edge(self, dest_row):
         if self.color == "lower" and dest_row == 0:
-            print('Lower case Pawn reached the last line 8')
+            print('swap_pawn()', swap_pawn('Lower case', 8))
         elif self.color == "upper" and dest_row == 7:
-            print('Upper case Pawn reached the last line 1')
+            print('swap_pawn()', swap_pawn('Upper case', 1))
+
+
+def swap_pawn(case, line):
+    print(f'{case} Pawn reached the last line {line}')
+    swap_piece = input("Enter the name of a new piece (r, h, b, q): ")
+
+    if swap_piece in ['r', 'h', 'b', 'q']:
+        if case == 'Upper case':
+            # Change Pawn to selected piece of the same case
+            print('success', swap_piece.upper())
+        else:
+            # Change Pawn to selected piece of the same case
+            print('success', swap_piece.lower())
+    elif len(swap_piece) != 1 or swap_piece.isalnum():
+        print('Wrong input:', swap_piece)
+        swap_pawn(case, line)
+
+    return swap_piece
 
 
 class Rook(ChessPiece):
