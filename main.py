@@ -1,14 +1,4 @@
-class Player:
-    def __init__(self, name, color):
-        self.name = name
-        self.color = color
-        pass
-
-    def valid_player(self, piece_color):
-        if self.color == piece_color:
-            return True
-        else:
-            return False
+from player import Player
 
 
 player_1 = Player("Player 1", "lower")
@@ -56,11 +46,11 @@ class Pawn(ChessPiece):
 
         # The pawn cannot attack straight forward, only diagonally
         if valid:
-            dest_cell = board[dest_row][dest_col]
+            dest_cell = first_board[dest_row][dest_col]
             if dest_cell.piece is not None:
                 return False
         else:
-            dest_cell = board[dest_row][dest_col]
+            dest_cell = first_board[dest_row][dest_col]
             if dest_cell.piece is not None and dest_row == source_row - forward:
                 return True
 
@@ -69,10 +59,10 @@ class Pawn(ChessPiece):
     def check_reached_edge(self, dest_row, dest_col):
         if self.color == "lower" and dest_row == 0:
             new_piece = swap_pawn("Lower case", 8)
-            board[dest_row][dest_col].piece = new_piece
+            first_board[dest_row][dest_col].piece = new_piece
         elif self.color == "upper" and dest_row == 7:
             new_piece = swap_pawn("Upper case", 1)
-            board[dest_row][dest_col].piece = new_piece
+            first_board[dest_row][dest_col].piece = new_piece
 
 
 def swap_pawn(case, line):
@@ -199,7 +189,7 @@ def create_board():
     return board
 
 
-board = create_board()
+first_board = create_board()
 
 
 def move_piece():
@@ -226,36 +216,36 @@ def move_piece():
             target_row = 8 - int(destination[1])
             target_col = ord(destination[0]) - ord("a")
 
-            if board[source_row][source_col].piece is None:
+            if first_board[source_row][source_col].piece is None:
                 raise ValueError("There is no Player 1 piece on this square")
 
-            piece = board[source_row][source_col].piece.type
-            color = board[source_row][source_col].piece.color
+            piece = first_board[source_row][source_col].piece.type
+            color = first_board[source_row][source_col].piece.color
 
             if color == "upper":
                 piece = piece.upper()
 
-            if board[target_row][target_col].piece is not None:
+            if first_board[target_row][target_col].piece is not None:
                 if (
                     piece.isupper()
-                    and board[target_row][target_col].piece.color == "upper"
+                    and first_board[target_row][target_col].piece.color == "upper"
                 ):
                     raise ValueError("Cannot capture a piece of the same case")
                 elif (
-                    piece.islower()
-                    and board[target_row][target_col].piece.color == "lower"
+                        piece.islower()
+                        and first_board[target_row][target_col].piece.color == "lower"
                 ):
                     raise ValueError("Cannot capture a piece of the same case")
                 elif piece.isupper():
-                    lost_piece = board[target_row][target_col].piece.type
+                    lost_piece = first_board[target_row][target_col].piece.type
                     key = piece_names[lost_piece]
                     lower_losses.append(key)
                 elif piece.islower():
-                    lost_piece = board[target_row][target_col].piece.type.upper()
+                    lost_piece = first_board[target_row][target_col].piece.type.upper()
                     key = piece_names[lost_piece]
                     upper_losses.append(key)
 
-            moving_piece = board[source_row][source_col].piece.color
+            moving_piece = first_board[source_row][source_col].piece.color
             if not current_player.valid_player(moving_piece):
                 print(f"{current_player.name} can't move this piece")
                 continue
@@ -265,10 +255,10 @@ def move_piece():
             else:
                 current_player = player_1
 
-            board[target_row][target_col].piece = board[source_row][source_col].piece
-            board[source_row][source_col].piece = None
+            first_board[target_row][target_col].piece = first_board[source_row][source_col].piece
+            first_board[source_row][source_col].piece = None
             # Ceck if Pawn reached the last line
-            pawn_piece = board[target_row][target_col].piece
+            pawn_piece = first_board[target_row][target_col].piece
             if isinstance(pawn_piece, Pawn):
                 pawn_piece.check_reached_edge(target_row, target_col)
 
@@ -286,7 +276,7 @@ def print_board():
     for row in range(8):
         print(f"{8 - row} |", end="")
         for col in range(8):
-            cell = board[row][col]
+            cell = first_board[row][col]
             if cell.piece is None:
                 print(f"{cell}|", end="")
             else:
