@@ -22,10 +22,7 @@ class ChessPiece:
         self.color = color
 
     def __repr__(self):
-        if self.color == "lower":
-            return self.type.lower()
-        else:
-            return self.type.upper()
+        return self.type if self.color == "lower" else self.type.upper()
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         raise NotImplementedError("Subclasses must implement this method")
@@ -40,11 +37,8 @@ class Pawn(ChessPiece):
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         # Pawns can only move forward
         # Pawns can only capture diagonally
-        if self.color == "lower":
-            forward = 1
-        else:
-            forward = -1
-
+        forward = 1 if self.color == "lower" else -1
+ 
         if self.first_move:
             valid = (
                 dest_row == source_row - 1 * forward
@@ -81,10 +75,10 @@ class Pawn(ChessPiece):
 def swap_pawn(case, line):
     print(f"{case} Pawn reached the last line {line}")
     swap_piece = input(
-        "Enter the name of a new piece \n(r for Rook, h for Knoght, b for Bishop, q for Queen): "
+        "Enter the name of a new piece \n(r for Rook, h for Knight, b for Bishop, q for Queen): "
     )
 
-    if swap_piece in ["r", "h", "b", "q"]:
+    if swap_piece.lower() in ["r", "h", "b", "q"]:
         # Change Pawn to selected piece of the same case
         if case == "Upper case":
             new_piece = globals()[piece_names[swap_piece.upper()]]("upper")
