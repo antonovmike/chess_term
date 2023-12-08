@@ -184,7 +184,7 @@ def move_piece():
     while True:
         try:
             source = input("Enter the coordinates of the source cell: ")
-            destination = input("Enter the coordinates of the destination cell: ")
+            destination = input("Enter the coordinates of the target cell: ")
 
             if source == 'quit' or destination == 'quit':
                 break
@@ -195,38 +195,40 @@ def move_piece():
 
             source_row = 8 - int(source[1])
             source_col = ord(source[0]) - ord("a")
-            dest_row = 8 - int(destination[1])
-            dest_col = ord(destination[0]) - ord("a")
+            target_row = 8 - int(destination[1])
+            target_col = ord(destination[0]) - ord("a")
 
             if board[source_row][source_col].piece is None:
                 raise ValueError("There is no Player 1 piece on this square")
 
             piece = board[source_row][source_col].piece.type
 
-            if board[dest_row][dest_col].piece is not None:
-                if piece.isupper() and board[dest_row][dest_col].piece.type.isupper():
+            if board[target_row][target_col].piece is not None:
+                if piece.isupper() and board[target_row][target_col].piece.type.isupper():
+                    raise ValueError("Cannot capture a piece of the same case")
+                elif piece.islower and board[target_row][target_col].piece.type.islower():
                     raise ValueError("Cannot capture a piece of the same case")
                 elif piece.isupper():
-                    lost_piece = board[dest_row][dest_col].piece.type
+                    lost_piece = board[target_row][target_col].piece.type
                     key = piece_names[lost_piece]
                     lower_losses.append(key)
                 elif piece.islower():
-                    lost_piece = board[dest_row][dest_col].piece.type
+                    lost_piece = board[target_row][target_col].piece.type
                     key = piece_names[lost_piece.upper()]
                     upper_losses.append(key)
 
             # Check the piece
             piece = board[source_row][source_col].piece
-            if not piece.valid_move(source_row, source_col, dest_row, dest_col):
+            if not piece.valid_move(source_row, source_col, target_row, target_col):
                 value = piece_names[piece.type]
                 raise ValueError(f"Invalid move for {value}")
 
-            board[dest_row][dest_col].piece = board[source_row][source_col].piece
+            board[target_row][target_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
 
             print_board()
-            print("Upper Case losses:", upper_losses)
-            print("Lower Case losses:", lower_losses)
+            print("Upper Case losses:", *upper_losses, sep=" ")
+            print("Lower Case losses:", *lower_losses)
 
         except ValueError as e:
             print(f"Error: {e}")
