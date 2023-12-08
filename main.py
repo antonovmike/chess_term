@@ -4,6 +4,18 @@ class Player:
         self.color = color
         pass
 
+    def valid_player(self, piece_color):
+        if self.color == piece_color:
+            print('True')
+            print('Current player', self.color)
+            print('Moving pieces color', piece_color)
+            return True
+        else:
+            print('False')
+            print('Current player', self.color)
+            print('Moving pieces color', piece_color)
+            return False
+
 
 player_1 = Player("Player 1", "lower")
 player_2 = Player("Player 2", "upper")
@@ -40,21 +52,7 @@ class Pawn(ChessPiece):
         self.first_move = True
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
-        # Pawns can only move forward
-        # Pawns can only capture diagonally
         forward = 1 if self.color == "lower" else -1
-
-        # if self.first_move:
-        #     valid = (
-        #         dest_row == source_row - 1 * forward
-        #         and dest_col == source_col
-        #         or dest_row == source_row - 2 * forward
-        #         and dest_col == source_col
-        #     )
-        #     if valid:
-        #         self.first_move = False
-        # else:
-        #     valid = dest_row == source_row - 1 * forward and dest_col == source_col
 
         valid = dest_row == source_row - 1 * forward and dest_col == source_col
         if self.first_move:
@@ -269,6 +267,14 @@ def move_piece():
                 value = piece_names[piece.type]
                 raise ValueError(f"Invalid move for {value}")
 
+            moving_piece = board[source_row][source_col].piece.color
+            current_player.valid_player(moving_piece)
+
+            if current_player == player_1:
+                current_player = player_2
+            else:
+                current_player = player_1
+
             board[target_row][target_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
             # Ceck if Pawn reached the last line
@@ -277,11 +283,6 @@ def move_piece():
                 pawn_piece.check_reached_edge(target_row, target_col)
 
             print_board()
-
-            if current_player == player_1:
-                current_player = player_2
-            else:
-                current_player = player_1
 
             print("Upper Case losses:", *upper_losses)
             print("Lower Case losses:", *lower_losses)
