@@ -38,18 +38,24 @@ class Pawn(ChessPiece):
         # Pawns can only move forward
         # Pawns can only capture diagonally
         forward = 1 if self.color == "lower" else -1
- 
+
+        # if self.first_move:
+        #     valid = (
+        #         dest_row == source_row - 1 * forward
+        #         and dest_col == source_col
+        #         or dest_row == source_row - 2 * forward
+        #         and dest_col == source_col
+        #     )
+        #     if valid:
+        #         self.first_move = False
+        # else:
+        #     valid = dest_row == source_row - 1 * forward and dest_col == source_col
+
+        valid = dest_row == source_row - 1 * forward and dest_col == source_col
         if self.first_move:
-            valid = (
-                dest_row == source_row - 1 * forward
-                and dest_col == source_col
-                or dest_row == source_row - 2 * forward
-                and dest_col == source_col
-            )
+            valid = valid or (dest_row == source_row - 2 * forward and dest_col == source_col)
             if valid:
                 self.first_move = False
-        else:
-            valid = dest_row == source_row - 1 * forward and dest_col == source_col
 
         # The pawn cannot attack straight forward, only diagonally
         if valid:
@@ -77,6 +83,7 @@ def swap_pawn(case, line):
     swap_piece = input(
         "Enter the name of a new piece \n(r for Rook, h for Knight, b for Bishop, q for Queen): "
     )
+    new_piece = ''
 
     if swap_piece.lower() in ["r", "h", "b", "q"]:
         # Change Pawn to selected piece of the same case
