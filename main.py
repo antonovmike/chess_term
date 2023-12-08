@@ -69,29 +69,32 @@ class Pawn(ChessPiece):
 
         return valid
 
-    def check_reached_edge(self, dest_row):
+    def check_reached_edge(self, dest_row, dest_col):
         if self.color == "lower" and dest_row == 0:
-            print('swap_pawn()', swap_pawn('Lower case', 8))
+            new_piece = swap_pawn("Lower case", 8)
+            board[dest_row][dest_col].piece = new_piece
         elif self.color == "upper" and dest_row == 7:
-            print('swap_pawn()', swap_pawn('Upper case', 1))
+            new_piece = swap_pawn("Upper case", 1)
+            board[dest_row][dest_col].piece = new_piece
 
 
 def swap_pawn(case, line):
-    print(f'{case} Pawn reached the last line {line}')
-    swap_piece = input("Enter the name of a new piece (r, h, b, q): ")
+    print(f"{case} Pawn reached the last line {line}")
+    swap_piece = input(
+        "Enter the name of a new piece \n(r for Rook, h for Knoght, b for Bishop, q for Queen): "
+    )
 
-    if swap_piece in ['r', 'h', 'b', 'q']:
-        if case == 'Upper case':
-            # Change Pawn to selected piece of the same case
-            print('success', swap_piece.upper())
+    if swap_piece in ["r", "h", "b", "q"]:
+        # Change Pawn to selected piece of the same case
+        if case == "Upper case":
+            new_piece = globals()[piece_names[swap_piece.upper()]]("upper")
         else:
-            # Change Pawn to selected piece of the same case
-            print('success', swap_piece.lower())
+            new_piece = globals()[piece_names[swap_piece.lower()]]("lower")
     elif len(swap_piece) != 1 or swap_piece.isalnum():
-        print('Wrong input:', swap_piece)
+        print("Wrong input:", swap_piece)
         swap_pawn(case, line)
 
-    return swap_piece
+    return new_piece
 
 
 class Rook(ChessPiece):
@@ -210,9 +213,9 @@ def move_piece():
             source = input("Enter the coordinates of the source cell: ")
             destination = input("Enter the coordinates of the target cell: ")
 
-            if source == 'quit' or destination == 'quit':
+            if source == "quit" or destination == "quit":
                 break
-            elif source == 'exit' or destination == 'exit':
+            elif source == "exit" or destination == "exit":
                 break
             elif len(source) != 2 or len(destination) != 2:
                 raise ValueError("The coordinates must be one letter and one digit")
@@ -228,13 +231,19 @@ def move_piece():
             piece = board[source_row][source_col].piece.type
             color = board[source_row][source_col].piece.color
 
-            if color == 'upper':
+            if color == "upper":
                 piece = piece.upper()
 
             if board[target_row][target_col].piece is not None:
-                if piece.isupper() and board[target_row][target_col].piece.color == 'upper':
+                if (
+                    piece.isupper()
+                    and board[target_row][target_col].piece.color == "upper"
+                ):
                     raise ValueError("Cannot capture a piece of the same case")
-                elif piece.islower() and board[target_row][target_col].piece.color == 'lower':
+                elif (
+                    piece.islower()
+                    and board[target_row][target_col].piece.color == "lower"
+                ):
                     raise ValueError("Cannot capture a piece of the same case")
                 elif piece.isupper():
                     lost_piece = board[target_row][target_col].piece.type
@@ -256,7 +265,7 @@ def move_piece():
             # Ceck if Pawn reached the last line
             pawn_piece = board[target_row][target_col].piece
             if isinstance(pawn_piece, Pawn):
-                pawn_piece.check_reached_edge(target_row)
+                pawn_piece.check_reached_edge(target_row, target_col)
 
             print_board()
             print("Upper Case losses:", *upper_losses)
