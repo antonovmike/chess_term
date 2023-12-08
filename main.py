@@ -258,6 +258,12 @@ def move_piece():
                 print(f"{current_player.name} can't move this piece")
                 continue
 
+            # Check the piece
+            piece = first_board[source_row][source_col].piece
+            if not piece.valid_move(source_row, source_col, target_row, target_col):
+                value = piece_names[piece.type]
+                raise ValueError(f"Invalid move for {value}")
+            # Change the Player
             if current_player == player_1:
                 current_player = player_2
             else:
