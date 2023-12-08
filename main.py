@@ -69,6 +69,12 @@ class Pawn(ChessPiece):
 
         return valid
 
+    def check_reached_edge(self, dest_row):
+        if self.color == "lower" and dest_row == 0:
+            print('Lower case Pawn reached the last line 8')
+        elif self.color == "upper" and dest_row == 7:
+            print('Upper case Pawn reached the last line 1')
+
 
 class Rook(ChessPiece):
     def __init__(self, color):
@@ -229,6 +235,10 @@ def move_piece():
 
             board[target_row][target_col].piece = board[source_row][source_col].piece
             board[source_row][source_col].piece = None
+            # Ceck if Pawn reached the last line
+            pawn_piece = board[target_row][target_col].piece
+            if isinstance(pawn_piece, Pawn):
+                pawn_piece.check_reached_edge(target_row)
 
             print_board()
             print("Upper Case losses:", *upper_losses)
