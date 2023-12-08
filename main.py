@@ -6,14 +6,8 @@ class Player:
 
     def valid_player(self, piece_color):
         if self.color == piece_color:
-            print('True')
-            print('Current player', self.color)
-            print('Moving pieces color', piece_color)
             return True
         else:
-            print('False')
-            print('Current player', self.color)
-            print('Moving pieces color', piece_color)
             return False
 
 
@@ -261,14 +255,10 @@ def move_piece():
                     key = piece_names[lost_piece]
                     upper_losses.append(key)
 
-            # Check the piece
-            piece = board[source_row][source_col].piece
-            if not piece.valid_move(source_row, source_col, target_row, target_col):
-                value = piece_names[piece.type]
-                raise ValueError(f"Invalid move for {value}")
-
             moving_piece = board[source_row][source_col].piece.color
-            current_player.valid_player(moving_piece)
+            if not current_player.valid_player(moving_piece):
+                print(f"{current_player.name} can't move this piece")
+                continue
 
             if current_player == player_1:
                 current_player = player_2
