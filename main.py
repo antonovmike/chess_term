@@ -202,19 +202,23 @@ def move_piece():
                 raise ValueError("There is no Player 1 piece on this square")
 
             piece = board[source_row][source_col].piece.type
+            color = board[source_row][source_col].piece.color
+
+            if color == 'upper':
+                piece = piece.upper()
 
             if board[target_row][target_col].piece is not None:
-                if piece.isupper() and board[target_row][target_col].piece.type.isupper():
+                if piece.isupper() and board[target_row][target_col].piece.color == 'upper':
                     raise ValueError("Cannot capture a piece of the same case")
-                elif piece.islower and board[target_row][target_col].piece.type.islower():
+                elif piece.islower() and board[target_row][target_col].piece.color == 'lower':
                     raise ValueError("Cannot capture a piece of the same case")
                 elif piece.isupper():
                     lost_piece = board[target_row][target_col].piece.type
                     key = piece_names[lost_piece]
                     lower_losses.append(key)
                 elif piece.islower():
-                    lost_piece = board[target_row][target_col].piece.type
-                    key = piece_names[lost_piece.upper()]
+                    lost_piece = board[target_row][target_col].piece.type.upper()
+                    key = piece_names[lost_piece]
                     upper_losses.append(key)
 
             # Check the piece
@@ -227,7 +231,7 @@ def move_piece():
             board[source_row][source_col].piece = None
 
             print_board()
-            print("Upper Case losses:", *upper_losses, sep=" ")
+            print("Upper Case losses:", *upper_losses)
             print("Lower Case losses:", *lower_losses)
 
         except ValueError as e:
