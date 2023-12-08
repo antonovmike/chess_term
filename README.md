@@ -1,5 +1,5 @@
 # chess_term
-Not a real game you can just move pieces across the board
+I made this demo game just to figure out how python classes work and put them into practice
 
 ![python_gtk](https://github.com/antonovmike/chess_term/blob/main/Screenshot.png)
 

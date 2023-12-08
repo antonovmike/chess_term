@@ -143,7 +143,8 @@ class King(ChessPiece):
         self.type = "k"
 
     def valid_move(self, source_row, source_col, dest_row, dest_col):
-        if abs(source_row - dest_row) <= 1 and abs(source_col - dest_col) <= 1:
+        print("coordinates", self, source_row, source_col, dest_row, dest_col)
+        if source_row - dest_row == 1 and source_col - dest_col == 1:
             return True
         else:
             return False
@@ -217,7 +218,7 @@ def move_piece():
             target_col = ord(destination[0]) - ord("a")
 
             if first_board[source_row][source_col].piece is None:
-                raise ValueError("There is no Player 1 piece on this square")
+                raise ValueError(f"There is no {current_player.name} piece on this square")
 
             piece = first_board[source_row][source_col].piece.type
             color = first_board[source_row][source_col].piece.color
@@ -226,7 +227,14 @@ def move_piece():
                 piece = piece.upper()
 
             if first_board[target_row][target_col].piece is not None:
-                if (
+                are_you_king = first_board[target_row][target_col].piece
+                if are_you_king.type == 'k':
+                    print('Player 2 win')
+                    break
+                elif are_you_king.type == 'K':
+                    print('Player 1 win')
+                    break
+                elif (
                     piece.isupper()
                     and first_board[target_row][target_col].piece.color == "upper"
                 ):
