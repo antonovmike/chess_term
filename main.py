@@ -150,6 +150,12 @@ class King(ChessPiece):
             return False
 
 
+def count_distance(source_row, source_col, target_row, target_col):
+    horizontal = source_row - target_row
+    vertical = source_col - target_col
+    print('==>>', horizontal, vertical)
+
+
 piece_names = {
     "K": "King",
     "k": "King",
@@ -222,6 +228,9 @@ def move_piece():
 
             piece = first_board[source_row][source_col].piece.type
             color = first_board[source_row][source_col].piece.color
+
+            if piece.lower() != 'h':
+                count_distance(source_row, source_col, target_row, target_col)
 
             if color == "upper":
                 piece = piece.upper()

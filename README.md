@@ -10,3 +10,4 @@ B/b = bishop,
 H/h = knight, 
 P/p = pawn
 
+add to valid_move: Check if there is any other piece on your way. Except H/h Knight
