@@ -188,95 +188,62 @@ first_board = create_board()
 
 
 def move_piece():
-    upper_losses = []
-    lower_losses = []
+    upper_pieces = []
+    lower_pieces = []
     current_player = player_1
 
     while True:
         try:
-            print(f'It\'s {current_player.name} turn')
-
             source = input("Enter the coordinates of the source cell: ")
             destination = input("Enter the coordinates of the target cell: ")
 
-            if source == "quit" or destination == "quit":
-                break
-            elif source == "exit" or destination == "exit":
+            if source.lower() in ("quit", "exit"):
                 break
             elif len(source) != 2 or len(destination) != 2:
                 raise ValueError("The coordinates must be one letter and one digit")
 
-            source_row = 8 - int(source[1])
-            source_col = ord(source[0]) - ord("a")
-            target_row = 8 - int(destination[1])
-            target_col = ord(destination[0]) - ord("a")
+            source_row, source_col = (8 - int(source[1]), ord(source[0]) - ord("a"))
+            target_row, target_col = (8 - int(destination[1]), ord(destination[0]) - ord("a"))
 
-            if first_board[source_row][source_col].piece is None:
+            piece = first_board[source_row][source_col].piece
+            if piece is None:
                 raise ValueError(f"There is no {current_player.name} piece on this square")
 
-            piece = first_board[source_row][source_col].piece.type
-            color = first_board[source_row][source_col].piece.color
+            if piece.type.lower() != 'h':
+                if not piece.valid_move(source_row, source_col, target_row, target_col):
+                    raise ValueError("Invalid move")
 
-            if piece.lower() != 'h':
-                count_distance(source_row, source_col, target_row, target_col)
-
-            if color == "upper":
-                piece = piece.upper()
-
-            if first_board[target_row][target_col].piece is not None:
-                are_you_king = first_board[target_row][target_col].piece
-                if are_you_king.type == 'k':
-                    print('Player 2 win')
-                    break
-                elif are_you_king.type == 'K':
-                    print('Player 1 win')
-                    break
-                elif (
-                    piece.isupper()
-                    and first_board[target_row][target_col].piece.color == "upper"
-                ):
-                    raise ValueError("Cannot capture a piece of the same case")
-                elif (
-                        piece.islower()
-                        and first_board[target_row][target_col].piece.color == "lower"
-                ):
-                    raise ValueError("Cannot capture a piece of the same case")
-                elif piece.isupper():
-                    lost_piece = first_board[target_row][target_col].piece.type
-                    key = piece_names[lost_piece]
-                    lower_losses.append(key)
-                elif piece.islower():
-                    lost_piece = first_board[target_row][target_col].piece.type.upper()
-                    key = piece_names[lost_piece]
-                    upper_losses.append(key)
-
-            moving_piece = first_board[source_row][source_col].piece.color
-            if not current_player.valid_player(moving_piece):
-                print(f"{current_player.name} can't move this piece")
+            if not current_player.valid_player(piece.color):
                 continue
 
-            # Check the piece
-            piece = first_board[source_row][source_col].piece
-            if not piece.valid_move(source_row, source_col, target_row, target_col):
-                value = piece_names[piece.type]
-                raise ValueError(f"Invalid move for {value}")
-            # Change the Player
-            if current_player == player_1:
-                current_player = player_2
-            else:
-                current_player = player_1
+            # Check if the target cell is occupied
+            if first_board[target_row][target_col].piece is not None:
+                if piece.color == first_board[target_row][target_col].piece.color:
+                    raise ValueError("Cannot capture a piece of the same case")
+                else:
+                    lost_piece = first_board[target_row][target_col].piece.type
+                    if piece.color == "upper":
+                        upper_pieces.append(lost_piece)
+                    else:
+                        lower_pieces.append(lost_piece.upper())
 
-            first_board[target_row][target_col].piece = first_board[source_row][source_col].piece
+            first_board[target_row][target_col].piece = piece
             first_board[source_row][source_col].piece = None
-            # Ceck if Pawn reached the last line
+
+            # Check if Pawn reached the last line
             pawn_piece = first_board[target_row][target_col].piece
             if isinstance(pawn_piece, Pawn):
                 pawn_piece.check_reached_edge(target_row, target_col)
 
             print_board()
 
-            print("Upper Case losses:", *upper_losses)
-            print("Lower Case losses:", *lower_losses)
+            print("Upper Case losses:", *[name.upper() for name in upper_pieces])
+            print("Lower Case losses:", *[name.lower() for name in lower_pieces])
+
+            if current_player == player_1:
+                current_player = player_2
+            else:
+                current_player = player_1
 
         except ValueError as e:
             print(f"Error: {e}")
