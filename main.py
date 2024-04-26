@@ -1,20 +1,24 @@
 from player import Player
+from board import Cell
 
 
 player_1 = Player("Player 1", "lower")
 player_2 = Player("Player 2", "upper")
 
-
-class Cell:
-    def __init__(self, color, piece=None):
-        self.color = color
-        self.piece = piece
-
-    def __repr__(self):
-        if self.piece is None:
-            return self.color
-        else:
-            return self.color[0] + self.piece.__repr__() + self.color[1:]
+piece_names = {
+    "K": "King",
+    "k": "King",
+    "Q": "Queen",
+    "q": "Queen",
+    "R": "Rook",
+    "r": "Rook",
+    "B": "Bishop",
+    "b": "Bishop",
+    "H": "Knight",
+    "h": "Knight",
+    "P": "Pawn",
+    "p": "Pawn",
+}
 
 
 class ChessPiece:
@@ -154,22 +158,6 @@ def count_distance(source_row, source_col, target_row, target_col):
     horizontal = source_row - target_row
     vertical = source_col - target_col
     print('==>>', horizontal, vertical)
-
-
-piece_names = {
-    "K": "King",
-    "k": "King",
-    "Q": "Queen",
-    "q": "Queen",
-    "R": "Rook",
-    "r": "Rook",
-    "B": "Bishop",
-    "b": "Bishop",
-    "H": "Knight",
-    "h": "Knight",
-    "P": "Pawn",
-    "p": "Pawn",
-}
 
 
 def create_board():
