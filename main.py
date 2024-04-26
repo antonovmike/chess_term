@@ -69,24 +69,17 @@ class Pawn(ChessPiece):
             first_board[dest_row][dest_col].piece = new_piece
 
 
-def swap_pawn(case, line):
-    print(f"{case} Pawn reached the last line {line}")
-    swap_piece = input(
-        "Enter the name of a new piece \n(r for Rook, h for Knight, b for Bishop, q for Queen): "
-    )
-    new_piece = ''
+def swap_pawn(case, row):
+    piece_type = input("Enter the name of a new piece: r, h, b, or q: ").lower()
 
-    if swap_piece.lower() in ["r", "h", "b", "q"]:
-        # Change Pawn to selected piece of the same case
-        if case == "Upper case":
-            new_piece = globals()[piece_names[swap_piece.upper()]]("upper")
-        else:
-            new_piece = globals()[piece_names[swap_piece.lower()]]("lower")
-    elif len(swap_piece) != 1 or swap_piece.isalnum():
-        print("Wrong input:", swap_piece)
-        swap_pawn(case, line)
+    if piece_type in piece_names:
+        new_piece = globals()[piece_names[piece_type]](case)
+    else:
+        print("Wrong input:", piece_type)
+        return swap_pawn(case, row)
 
     return new_piece
+
 
 
 class Rook(ChessPiece):
