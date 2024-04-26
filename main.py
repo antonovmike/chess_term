@@ -155,23 +155,23 @@ def count_distance(source_row, source_col, target_row, target_col):
 
 def create_board():
     pieces_order = ["r", "h", "b", "q", "k", "b", "h", "r"]
-    empty_order = [None for _ in range(8)]
+    empty_order = [None] * 8
 
     board = []
-    for i in range(8):
+    for row_index in range(8):
         row = []
-        for j in range(8):
-            color = ":::" if (i + j) % 2 == 0 else "   "
-            if i == 0:
-                piece = globals()[piece_names[pieces_order[j].upper()]]("upper")
-            elif i == 1:
+        for col_index in range(8):
+            color = ":::" if (row_index + col_index) % 2 == 0 else "   "
+            if row_index == 0:
+                piece = globals()[piece_names[pieces_order[col_index].upper()]]("upper")
+            elif row_index == 1:
                 piece = Pawn("upper")
-            elif i >= 6:
+            elif row_index >= 6:
                 piece = Pawn("lower")
-                if i == 7:
-                    piece = globals()[piece_names[pieces_order[j]]]("lower")
+                if row_index == 7:
+                    piece = globals()[piece_names[pieces_order[col_index]]]("lower")
             else:
-                piece = empty_order[j]
+                piece = empty_order[col_index]
             row.append(Cell(color, piece))
         board.append(row)
     return board
