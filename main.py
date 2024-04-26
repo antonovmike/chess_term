@@ -32,6 +32,16 @@ class ChessPiece:
     def valid_move(self, source_row, source_col, dest_row, dest_col):
         raise NotImplementedError("Subclasses must implement this method")
 
+    @staticmethod
+    def swap_pawn(case: str, row: int):
+        piece_type = input("Enter the name of a new piece: r, h, b, or q: ").lower()
+        if piece_type in piece_names:
+            new_piece = globals()[piece_names[piece_type]](case)
+        else:
+            print("Wrong input:", piece_type)
+            return ChessPiece.swap_pawn(case, row)
+        return new_piece
+
 
 class Pawn(ChessPiece):
     def __init__(self, color):
@@ -62,24 +72,11 @@ class Pawn(ChessPiece):
 
     def check_reached_edge(self, dest_row, dest_col):
         if self.color == "lower" and dest_row == 0:
-            new_piece = swap_pawn("Lower case", 8)
+            new_piece = ChessPiece.swap_pawn("Lower case", 8)
             first_board[dest_row][dest_col].piece = new_piece
         elif self.color == "upper" and dest_row == 7:
-            new_piece = swap_pawn("Upper case", 1)
+            new_piece = ChessPiece.swap_pawn("Upper case", 1)
             first_board[dest_row][dest_col].piece = new_piece
-
-
-def swap_pawn(case, row):
-    piece_type = input("Enter the name of a new piece: r, h, b, or q: ").lower()
-
-    if piece_type in piece_names:
-        new_piece = globals()[piece_names[piece_type]](case)
-    else:
-        print("Wrong input:", piece_type)
-        return swap_pawn(case, row)
-
-    return new_piece
-
 
 
 class Rook(ChessPiece):
