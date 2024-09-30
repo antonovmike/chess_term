@@ -1,5 +1,5 @@
 class Cell:
-    def __init__(self, color, piece=None):
+    def __init__(self, color: str, piece=None):
         self.color = color
         self.piece = piece
 

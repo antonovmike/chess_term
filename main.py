@@ -7,7 +7,7 @@ player_1 = Player("Player 1", "lower")
 player_2 = Player("Player 2", "upper")
 
 
-def count_distance(source_row, source_col, target_row, target_col):
+def count_distance(source_row: int, source_col: int, target_row: int, target_col: int):
     horizontal = source_row - target_row
     vertical = source_col - target_col
     print('==>>', horizontal, vertical)

@@ -15,7 +15,7 @@ piece_names = {
 
 
 class ChessPiece:
-    def __init__(self, color):
+    def __init__(self, color: str):
         self.type = None
         self.color = color
 
@@ -37,13 +37,13 @@ class ChessPiece:
 
 
 class Pawn(ChessPiece):
-    def __init__(self, color, board):
+    def __init__(self, color: str, board: str):
         super().__init__(color)
         self.type = "p"
         self.first_move = True
         self.board = board
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col, board):
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int, board: str):
         forward = 1 if self.color == "lower" else -1
 
         valid = dest_row == source_row - 1 * forward and dest_col == source_col
@@ -64,7 +64,7 @@ class Pawn(ChessPiece):
 
         return valid
 
-    def check_reached_edge(self, dest_row, dest_col):
+    def check_reached_edge(self, dest_row: int, dest_col: int):
         if self.color == "lower" and dest_row == 0:
             new_piece = ChessPiece.swap_pawn("Lower case", 8)
             self.board[dest_row][dest_col].piece = new_piece
@@ -74,11 +74,11 @@ class Pawn(ChessPiece):
 
 
 class Rook(ChessPiece):
-    def __init__(self, color):
+    def __init__(self, color: str):
         super().__init__(color)
         self.type = "r"
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col):
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
         if source_row == dest_row or source_col == dest_col:
             return True
         else:
@@ -86,11 +86,11 @@ class Rook(ChessPiece):
 
 
 class Knight(ChessPiece):
-    def __init__(self, color):
+    def __init__(self, color: str):
         super().__init__(color)
         self.type = "h"
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col):
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
         if abs(source_row - dest_row) == 2 and abs(source_col - dest_col) == 1:
             return True
         elif abs(source_row - dest_row) == 1 and abs(source_col - dest_col) == 2:
@@ -100,11 +100,11 @@ class Knight(ChessPiece):
 
 
 class Bishop(ChessPiece):
-    def __init__(self, color):
+    def __init__(self, color: str):
         super().__init__(color)
         self.type = "b"
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col):
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
         if abs(source_row - dest_row) == abs(source_col - dest_col):
             return True
         else:
@@ -112,11 +112,11 @@ class Bishop(ChessPiece):
 
 
 class Queen(ChessPiece):
-    def __init__(self, color):
+    def __init__(self, color: str):
         super().__init__(color)
         self.type = "q"
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col):
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
         if source_row == dest_row or source_col == dest_col:
             return True
         elif abs(source_row - dest_row) == abs(source_col - dest_col):
@@ -126,11 +126,11 @@ class Queen(ChessPiece):
 
 
 class King(ChessPiece):
-    def __init__(self, color):
+    def __init__(self, color: str):
         super().__init__(color)
         self.type = "k"
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col):
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
         print("coordinates", self, source_row, source_col, dest_row, dest_col)
         if source_row - dest_row == 1 and source_col - dest_col == 1:
             return True
