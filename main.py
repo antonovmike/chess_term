@@ -63,7 +63,7 @@ def move_piece():
                 raise ValueError(f"There is no {current_player.name} piece on this square")
 
             if piece.type.lower() != 'h':
-                if not piece.valid_move(source_row, source_col, target_row, target_col, first_board):
+                if not piece.validate_move(source_row, source_col, target_row, target_col, first_board):
                     raise ValueError("Invalid move")
 
             if not current_player.valid_player(piece.color):

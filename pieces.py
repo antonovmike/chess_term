@@ -1,3 +1,6 @@
+from move_valid import MoveValidator, PawnValidator
+
+
 piece_names = {
     "K": "King",
     "k": "King",
@@ -22,8 +25,9 @@ class ChessPiece:
     def __repr__(self):
         return self.type if self.color == "lower" else self.type.upper()
 
-    def valid_move(self, source_row, source_col, dest_row, dest_col):
-        raise NotImplementedError("Subclasses must implement this method")
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board: str):
+        return MoveValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
+        
 
     @staticmethod
     def swap_pawn(case: str, row: int):
@@ -43,26 +47,8 @@ class Pawn(ChessPiece):
         self.first_move = True
         self.board = board
 
-    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int, board: str):
-        forward = 1 if self.color == "lower" else -1
-
-        valid = dest_row == source_row - 1 * forward and dest_col == source_col
-        if self.first_move:
-            valid = valid or (dest_row == source_row - 2 * forward and dest_col == source_col)
-            if valid:
-                self.first_move = False
-
-        # The pawn cannot attack straight forward, only diagonally
-        if valid:
-            dest_cell = board[dest_row][dest_col]
-            if dest_cell.piece is not None:
-                return False
-        else:
-            dest_cell = board[dest_row][dest_col]
-            if dest_cell.piece is not None and dest_row == source_row - forward:
-                return True
-
-        return valid
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board: str):
+        return PawnValidator(self.color, self.board).valid_move(source_row, source_col, dest_row, dest_col, self.board)
 
     def check_reached_edge(self, dest_row: int, dest_col: int):
         if self.color == "lower" and dest_row == 0:
