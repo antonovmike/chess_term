@@ -54,7 +54,9 @@ def move_piece():
                 break
             elif len(source) != 2 or len(destination) != 2:
                 raise ValueError("The coordinates must be one letter and one digit")
-            elif source[0] or destination[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
+            elif source[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
+                raise ValueError("The letter of column is wrong")
+            elif destination[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
                 raise ValueError("The letter of column is wrong")
             elif int(source[1]) < 1 or int(source[1]) > 8:
                 raise ValueError("The number of row is wrong")
