@@ -50,3 +50,30 @@ class PawnValidator(MoveValidator):
         elif self.color == "upper" and dest_row == 7:
             new_piece = ChessPieceValidator.swap_pawn("Upper case", 1)
             self.board[dest_row][dest_col].piece = new_piece
+
+class RookValidator(ChessPieceValidator):
+    def __init__(self, color: str, board):
+        self.color = color
+        self.type = "r"
+
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int, board = None):
+        if source_row == dest_row or source_col == dest_col:
+            return True
+        else:
+            return False
+
+class KnightValidator(ChessPieceValidator):
+    def __init__(self, color: str, board):
+        self.color = color
+        self.type = "h"
+
+    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int, board = None):
+        if abs(source_row - dest_row) == 2 and abs(source_col - dest_col) == 1:
+            print("Valid move!!!!!")
+            return True
+        elif abs(source_row - dest_row) == 1 and abs(source_col - dest_col) == 2:
+            print("Valid move!!!")
+            return True
+        else:
+            print("Invalid move!!!")
+            return False

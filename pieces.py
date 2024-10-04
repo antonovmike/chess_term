@@ -1,4 +1,4 @@
-from move_valid import MoveValidator, PawnValidator
+from move_valid import KnightValidator, MoveValidator, PawnValidator, RookValidator
 
 
 piece_names = {
@@ -64,11 +64,8 @@ class Rook(ChessPiece):
         super().__init__(color)
         self.type = "r"
 
-    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
-        if source_row == dest_row or source_col == dest_col:
-            return True
-        else:
-            return False
+    def validate_move(self, source_row, source_col, dest_row, dest_col):
+        return RookValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
 
 
 class Knight(ChessPiece):
@@ -76,13 +73,8 @@ class Knight(ChessPiece):
         super().__init__(color)
         self.type = "h"
 
-    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
-        if abs(source_row - dest_row) == 2 and abs(source_col - dest_col) == 1:
-            return True
-        elif abs(source_row - dest_row) == 1 and abs(source_col - dest_col) == 2:
-            return True
-        else:
-            return False
+    def validate_move(self, source_row, source_col, dest_row, dest_col):
+        return KnightValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
 
 
 class Bishop(ChessPiece):
