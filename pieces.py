@@ -1,4 +1,4 @@
-from move_valid import KnightValidator, MoveValidator, PawnValidator, RookValidator
+from move_valid import BishopValidator, KingValidator, KnightValidator, MoveValidator, PawnValidator, QueenValidator, RookValidator
 
 
 piece_names = {
@@ -64,7 +64,7 @@ class Rook(ChessPiece):
         super().__init__(color)
         self.type = "r"
 
-    def validate_move(self, source_row, source_col, dest_row, dest_col):
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
         return RookValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
 
 
@@ -73,7 +73,7 @@ class Knight(ChessPiece):
         super().__init__(color)
         self.type = "h"
 
-    def validate_move(self, source_row, source_col, dest_row, dest_col):
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
         return KnightValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
 
 
@@ -82,11 +82,8 @@ class Bishop(ChessPiece):
         super().__init__(color)
         self.type = "b"
 
-    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
-        if abs(source_row - dest_row) == abs(source_col - dest_col):
-            return True
-        else:
-            return False
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
+        return BishopValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
 
 
 class Queen(ChessPiece):
@@ -94,13 +91,8 @@ class Queen(ChessPiece):
         super().__init__(color)
         self.type = "q"
 
-    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
-        if source_row == dest_row or source_col == dest_col:
-            return True
-        elif abs(source_row - dest_row) == abs(source_col - dest_col):
-            return True
-        else:
-            return False
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
+        return QueenValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
 
 
 class King(ChessPiece):
@@ -108,9 +100,5 @@ class King(ChessPiece):
         super().__init__(color)
         self.type = "k"
 
-    def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int):
-        print("coordinates", self, source_row, source_col, dest_row, dest_col)
-        if source_row - dest_row == 1 and source_col - dest_col == 1:
-            return True
-        else:
-            return False
+    def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
+        return KingValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
