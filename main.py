@@ -52,6 +52,8 @@ def move_piece():
 
             if source.lower() in ("quit", "exit"):
                 break
+            elif destination.lower() in ("quit", "exit"):
+                break
             elif len(source) != 2 or len(destination) != 2:
                 raise ValueError("The coordinates must be one letter and one digit")
             elif source[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
