@@ -50,9 +50,9 @@ def move_piece():
             source = input("Enter the coordinates of the source cell: ").strip().lower()
             destination = input("Enter the coordinates of the target cell: ").strip().lower()
 
-            if source.lower() in ("quit", "exit"):
+            if source in ("quit", "exit"):
                 break
-            if destination.lower() in ("quit", "exit"):
+            if destination in ("quit", "exit"):
                 break
 
             if len(source) != 2 or len(destination) != 2:
