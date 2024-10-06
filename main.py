@@ -47,8 +47,8 @@ def move_piece():
 
     while True:
         try:
-            source = input("Enter the coordinates of the source cell: ")
-            destination = input("Enter the coordinates of the target cell: ")
+            source = input("Enter the coordinates of the source cell: ").strip().lower()
+            destination = input("Enter the coordinates of the target cell: ").strip().lower()
 
             if source.lower() in ("quit", "exit"):
                 break
