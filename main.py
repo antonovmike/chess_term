@@ -52,16 +52,20 @@ def move_piece():
 
             if source.lower() in ("quit", "exit"):
                 break
-            elif destination.lower() in ("quit", "exit"):
+            if destination.lower() in ("quit", "exit"):
                 break
-            elif len(source) != 2 or len(destination) != 2:
+
+            if len(source) != 2 or len(destination) != 2:
                 raise ValueError("The coordinates must be one letter and one digit")
-            elif source[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
-                raise ValueError("The letter of column is wrong")
-            elif destination[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
-                raise ValueError("The letter of column is wrong")
-            elif int(source[1]) < 1 or int(source[1]) > 8:
-                raise ValueError("The number of row is wrong")
+
+            if source[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
+                raise ValueError("Source column is wrong")
+            if destination[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
+                raise ValueError("Destination column is wrong")
+            if int(source[1]) < 1 or int(source[1]) > 8:
+                raise ValueError("Source row is wrong")
+            if int(destination[1]) < 1 or int(destination[1]) > 8:
+                raise ValueError("Destination row is wrong")
 
             source_row, source_col = (8 - int(source[1]), ord(source[0]) - ord("a"))
             target_row, target_col = (8 - int(destination[1]), ord(destination[0]) - ord("a"))
@@ -108,7 +112,6 @@ def move_piece():
 
         except ValueError as e:
             print(f"Error: {e}")
-
 
 def print_board():
     print("  +---+---+---+---+---+---+---+---+")
