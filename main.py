@@ -79,8 +79,8 @@ def move_piece():
 
             print_board()
 
-            print("Upper Case losses:", *[name.upper() for name in upper_pieces])
-            print("Lower Case losses:", *[name.lower() for name in lower_pieces])
+            print("Upper Case losses:", *[name.upper() for name in lower_pieces])
+            print("Lower Case losses:", *[name.lower() for name in upper_pieces])
 
             if current_player == player_1:
                 current_player = player_2
