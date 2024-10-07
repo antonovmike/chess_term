@@ -1,5 +1,5 @@
 from player import Player
-from board import create_board
+from board import Board
 from pieces import Pawn
 
 
@@ -7,7 +7,8 @@ player_1 = Player("Player 1", "lower")
 player_2 = Player("Player 2", "upper")
 
 
-first_board = create_board()
+board_instance = Board()
+first_board = board_instance.get_board()
 
 
 def count_distance(source_row: int, source_col: int, target_row: int, target_col: int):
