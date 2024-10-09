@@ -1,4 +1,7 @@
-from move_valid import BishopValidator, KingValidator, KnightValidator, MoveValidator, PawnValidator, QueenValidator, RookValidator
+from move_valid import (
+    BishopValidator, KingValidator, KnightValidator, MoveValidator, 
+    PawnValidator, QueenValidator, RookValidator
+    )
 
 
 piece_names = {
@@ -26,8 +29,8 @@ class ChessPiece:
         return self.type if self.color == "lower" else self.type.upper()
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board: str):
-        return MoveValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
-        
+        return MoveValidator(source_row, source_col).valid_move(
+            source_row, source_col, dest_row, dest_col)
 
     @staticmethod
     def swap_pawn(case: str, row: int):
@@ -48,7 +51,8 @@ class Pawn(ChessPiece):
         self.board = board
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board: str):
-        return PawnValidator(self.color, self.board).valid_move(source_row, source_col, dest_row, dest_col, self.board)
+        return PawnValidator(self.color, self.board).valid_move(
+            source_row, source_col, dest_row, dest_col, self.board)
 
     def check_reached_edge(self, dest_row: int, dest_col: int):
         if self.color == "lower" and dest_row == 0:
@@ -65,7 +69,8 @@ class Rook(ChessPiece):
         self.type = "r"
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
-        return RookValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
+        return RookValidator(source_row, source_col).valid_move(
+            source_row, source_col, dest_row, dest_col)
 
 
 class Knight(ChessPiece):
@@ -74,7 +79,8 @@ class Knight(ChessPiece):
         self.type = "h"
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
-        return KnightValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
+        return KnightValidator(source_row, source_col).valid_move(
+            source_row, source_col, dest_row, dest_col)
 
 
 class Bishop(ChessPiece):
@@ -83,7 +89,8 @@ class Bishop(ChessPiece):
         self.type = "b"
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
-        return BishopValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
+        return BishopValidator(source_row, source_col).valid_move(
+            source_row, source_col, dest_row, dest_col)
 
 
 class Queen(ChessPiece):
@@ -92,7 +99,8 @@ class Queen(ChessPiece):
         self.type = "q"
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
-        return QueenValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
+        return QueenValidator(source_row, source_col).valid_move(
+            source_row, source_col, dest_row, dest_col)
 
 
 class King(ChessPiece):
@@ -101,4 +109,5 @@ class King(ChessPiece):
         self.type = "k"
 
     def validate_move(self, source_row, source_col, dest_row, dest_col, board = None):
-        return KingValidator(source_row, source_col).valid_move(source_row, source_col, dest_row, dest_col)
+        return KingValidator(source_row, source_col).valid_move(
+            source_row, source_col, dest_row, dest_col)
