@@ -69,13 +69,10 @@ class KnightValidator(ChessPieceValidator):
 
     def valid_move(self, source_row: int, source_col: int, dest_row: int, dest_col: int, board = None):
         if abs(source_row - dest_row) == 2 and abs(source_col - dest_col) == 1:
-            print("Valid move!!!!!")
             return True
         elif abs(source_row - dest_row) == 1 and abs(source_col - dest_col) == 2:
-            print("Valid move!!!")
             return True
         else:
-            print("Invalid move!!!")
             return False
 
 class BishopValidator(ChessPieceValidator):
